@@ -20,6 +20,9 @@ jobs:
       run: |
         chmod +x tests/test.sh
         tests/test.sh --regression
+        EXIT_CODE=$?
+        echo "Test exit code: $EXIT_CODE"
+        exit $EXIT_CODE
 
     - name: Report Results
       if: always()
