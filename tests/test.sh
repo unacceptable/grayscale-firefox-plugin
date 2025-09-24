@@ -133,7 +133,7 @@ run_unit_tests() {
                 const success = runner.printResults();
                 process.exit(success ? 0 : 1);
             " 2>/dev/null; then
-                ((unit_passed++))
+                ((unit_passed++)) || true
                 echo -e "${GREEN}✅ $test_file passed${NC}"
             else
                 echo -e "${RED}❌ $test_file failed${NC}"
@@ -171,7 +171,7 @@ run_integration_tests() {
                 const success = runner.printResults();
                 process.exit(success ? 0 : 1);
             " 2>/dev/null; then
-                ((integration_passed++))
+                ((integration_passed++)) || true
                 echo -e "${GREEN}✅ $test_file passed${NC}"
             else
                 echo -e "${RED}❌ $test_file failed${NC}"
@@ -201,7 +201,7 @@ run_regression_tests() {
     # Check 1: Content script message handlers check whitelist
     if grep -q "if (isWhitelisted(HOSTNAME, whitelist))" src/js/content.js; then
         echo "✅ Content script message handlers check whitelist"
-        ((static_passed++))
+        ((static_passed++)) || true
     else
         echo -e "${RED}❌ Content script missing whitelist check in message handlers${NC}"
     fi
@@ -210,7 +210,7 @@ run_regression_tests() {
     if grep -q "if (isWhitelisted(HOSTNAME, whitelist))" src/js/content.js && \
        grep -A 5 "if (isWhitelisted(HOSTNAME, whitelist))" src/js/content.js | grep -q "return"; then
         echo "✅ Content script initialization checks whitelist"
-        ((static_passed++))
+        ((static_passed++)) || true
     else
         echo -e "${RED}❌ Content script missing whitelist check in initialization${NC}"
     fi
@@ -218,7 +218,7 @@ run_regression_tests() {
     # Check 3: Popup checks current site whitelist status
     if grep -q "isWhitelisted.*hostname.*whitelist" src/js/popup.js; then
         echo "✅ Popup checks current site whitelist status"
-        ((static_passed++))
+        ((static_passed++)) || true
     else
         echo -e "${RED}❌ Popup missing current site whitelist check${NC}"
     fi
@@ -227,7 +227,7 @@ run_regression_tests() {
     if grep -q "if (isWhitelisted)" src/js/popup.js && \
        grep -A 10 "if (isWhitelisted)" src/js/popup.js | grep -q "disabled\|opacity.*0.5"; then
         echo "✅ Popup disables controls for whitelisted sites"
-        ((static_passed++))
+        ((static_passed++)) || true
     else
         echo -e "${RED}❌ Popup missing logic to disable controls for whitelisted sites${NC}"
     fi
@@ -236,7 +236,7 @@ run_regression_tests() {
     if grep -q "matchesWhitelistPattern" src/js/content.js && \
        grep -q "matchesWhitelistPattern" src/js/popup.js; then
         echo "✅ Wildcard matching function exists"
-        ((static_passed++))
+        ((static_passed++)) || true
     else
         echo -e "${RED}❌ Wildcard matching function missing${NC}"
     fi
@@ -244,7 +244,7 @@ run_regression_tests() {
     # Check 6: Debug logging present
     if grep -q "console.log.*whitelist" src/js/content.js; then
         echo "✅ Debug logging for whitelist decisions"
-        ((static_passed++))
+        ((static_passed++)) || true
     else
         echo -e "${RED}❌ Debug logging missing${NC}"
     fi
@@ -269,11 +269,11 @@ run_regression_tests() {
             // since the bug is primarily about code patterns
             process.exit(0);
         " 2>/dev/null; then
-            ((regression_passed++))
+            ((regression_passed++)) || true
             echo -e "${GREEN}✅ Whitelist bug regression tests completed${NC}"
         else
             echo -e "${YELLOW}⚠️  Integration tests had issues but static analysis passed${NC}"
-            ((regression_passed++))  # Still count as passed since static analysis is primary
+            ((regression_passed++)) || true  # Still count as passed since static analysis is primary
         fi
     else
         echo -e "${YELLOW}⚠️  Whitelist regression test file not found${NC}"

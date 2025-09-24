@@ -15,12 +15,8 @@ jobs:
 
     - name: Run Integration Tests
       run: |
-        echo "updated code"
         chmod +x tests/test.sh
         tests/test.sh --integration
-        EXIT_CODE=$?
-        echo "Test exit code: $EXIT_CODE"
-        exit $EXIT_CODE
 
     - name: Report Results
       if: always()
