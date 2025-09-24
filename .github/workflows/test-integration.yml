@@ -15,6 +15,7 @@ jobs:
 
     - name: Run Integration Tests
       run: |
+        echo "updated code"
         chmod +x tests/test.sh
         tests/test.sh --integration
         EXIT_CODE=$?
