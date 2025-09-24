@@ -1,0 +1,24 @@
+name: Unit Tests
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+
+jobs:
+  unit-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Run Unit Tests
+      run: |
+        chmod +x tests/test.sh
+        tests/test.sh --unit
+
+    - name: Report Results
+      if: always()
+      run: |
+        echo "::notice title=Unit Test Results::Unit tests completed using unified test runner"

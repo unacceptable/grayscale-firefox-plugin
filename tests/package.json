@@ -1,0 +1,41 @@
+{
+  "name": "grayscale-focus-extension-tests",
+  "version": "1.2.3",
+  "description": "Automated test suite for Grayscale Focus Firefox Extension",
+  "main": "test-runner.js",
+  "scripts": {
+    "test": "node test-runner.js",
+    "test:unit": "node test-runner.js | grep -E \"(Unit Tests|✅|❌|📊)\"",
+    "test:integration": "node test-runner.js | grep -E \"(Integration|✅|❌|📊)\"",
+    "test:watch": "nodemon --watch ../src --watch . --exec 'npm test'",
+    "test:verbose": "DEBUG=1 node test-runner.js",
+    "test:shell": "./run-tests.sh",
+    "clean": "rm -rf results/* coverage/*",
+    "lint": "echo 'Linting test files...' && find . -name '*.js' -exec node -c {} \\;"
+  },
+  "keywords": [
+    "firefox",
+    "extension",
+    "testing",
+    "automation",
+    "webextension",
+    "grayscale"
+  ],
+  "author": "Grayscale Focus Extension Team",
+  "license": "MIT",
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "directories": {
+    "test": "."
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/username/grayscale-firefox-plugin.git"
+  },
+  "bugs": {
+    "url": "https://github.com/username/grayscale-firefox-plugin/issues"
+  },
+  "homepage": "https://github.com/username/grayscale-firefox-plugin#readme"
+}

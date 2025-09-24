@@ -1,0 +1,113 @@
+{
+  "defaultSettings": {
+    "enabled": false,
+    "mode": "grayscale",
+    "intensity": 50,
+    "whitelist": [],
+    "timer": {
+      "workDuration": 25,
+      "breakDuration": 5,
+      "isRunning": false,
+      "currentSession": "work",
+      "timeRemaining": 1500
+    },
+    "analytics": {
+      "totalSessions": 0,
+      "totalFocusTime": 0,
+      "weeklyData": {},
+      "dailyGoal": 4,
+      "streak": 0,
+      "longestStreak": 0
+    }
+  },
+  "testProfiles": {
+    "basicUser": {
+      "enabled": true,
+      "mode": "grayscale",
+      "intensity": 75,
+      "whitelist": ["github.com", "stackoverflow.com"]
+    },
+    "powerUser": {
+      "enabled": true,
+      "mode": "sepia",
+      "intensity": 60,
+      "whitelist": ["*.github.com", "*.atlassian.net", "*.google.com"],
+      "timer": {
+        "workDuration": 45,
+        "breakDuration": 15
+      },
+      "analytics": {
+        "totalSessions": 150,
+        "totalFocusTime": 135000,
+        "dailyGoal": 6
+      }
+    },
+    "heavyUser": {
+      "enabled": true,
+      "mode": "blur",
+      "intensity": 80,
+      "whitelist": [
+        "github.com", "*.github.com",
+        "stackoverflow.com", "*.stackoverflow.com",
+        "atlassian.net", "*.atlassian.net",
+        "google.com", "*.google.com",
+        "microsoft.com", "*.microsoft.com"
+      ],
+      "analytics": {
+        "totalSessions": 500,
+        "totalFocusTime": 450000,
+        "weeklyData": {
+          "2023-12-18": { "sessions": 8, "focusTime": 14400 },
+          "2023-12-19": { "sessions": 6, "focusTime": 10800 },
+          "2023-12-20": { "sessions": 10, "focusTime": 18000 }
+        }
+      }
+    }
+  },
+  "visualModes": [
+    {
+      "name": "grayscale",
+      "cssFilter": "grayscale({intensity})",
+      "description": "Traditional black and white filter"
+    },
+    {
+      "name": "sepia",
+      "cssFilter": "sepia({intensity})",
+      "description": "Warm vintage tone effect"
+    },
+    {
+      "name": "blur",
+      "cssFilter": "blur({intensity * 2}px)",
+      "description": "Subtle background blur for focus"
+    },
+    {
+      "name": "contrast",
+      "cssFilter": "contrast({1 - (intensity * 0.5)})",
+      "description": "Reduced contrast for gentler viewing"
+    },
+    {
+      "name": "desaturate",
+      "cssFilter": "saturate({1 - intensity})",
+      "description": "Partial color removal"
+    },
+    {
+      "name": "invert",
+      "cssFilter": "invert({intensity})",
+      "description": "High contrast inverted colors"
+    }
+  ],
+  "intensityLevels": [0, 10, 25, 50, 75, 90, 100],
+  "validationRules": {
+    "intensity": {
+      "min": 0,
+      "max": 100,
+      "type": "number"
+    },
+    "mode": {
+      "enum": ["grayscale", "sepia", "blur", "contrast", "desaturate", "invert"]
+    },
+    "enabled": {
+      "type": "boolean"
+    }
+  }
+}

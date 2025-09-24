@@ -1,0 +1,24 @@
+/*
+ * Grayscale Focus Extension Styles
+ * Note: Most filtering is now handled by dynamically injected CSS
+ * in content.js for better site compatibility
+ */
+
+/* Fallback styles - only used if JavaScript injection fails */
+html.grayscale-mode {
+  filter: grayscale(100%) !important;
+}
+
+/* Ensure critical elements remain functional */
+html.grayscale-mode video,
+html.grayscale-mode audio,
+html.grayscale-mode canvas {
+  filter: none !important;
+}
+
+/* Improve interaction feedback in grayscale mode */
+html.grayscale-mode button:hover,
+html.grayscale-mode [role="button"]:hover,
+html.grayscale-mode a:hover {
+  filter: grayscale(100%) brightness(1.1) !important;
+}

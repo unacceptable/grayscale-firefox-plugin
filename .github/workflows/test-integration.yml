@@ -1,0 +1,24 @@
+name: Integration Tests
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+
+jobs:
+  integration-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Run Integration Tests
+      run: |
+        chmod +x tests/test.sh
+        tests/test.sh --integration
+
+    - name: Report Results
+      if: always()
+      run: |
+        echo "::notice title=Integration Test Results::Integration tests completed using unified test runner"

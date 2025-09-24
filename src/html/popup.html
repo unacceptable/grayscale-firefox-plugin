@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <style>
+    body {
+      width: 360px;
+      padding: 0;
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-size: 14px;
+      background: #f8f9fa;
+    }
+
+    .header {
+      background: #4a90e2;
+      color: white;
+      padding: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .header h1 {
+      margin: 0;
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    .version {
+      font-size: 11px;
+      opacity: 0.8;
+      background: rgba(255,255,255,0.2);
+      padding: 2px 8px;
+      border-radius: 12px;
+    }
+
+    .tabs {
+      display: flex;
+      background: white;
+      border-bottom: 1px solid #dee2e6;
+    }
+
+    .tab {
+      flex: 1;
+      padding: 12px 8px;
+      text-align: center;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 500;
+      color: #6c757d;
+      transition: all 0.2s;
+    }
+
+    .tab.active {
+      color: #4a90e2;
+      border-bottom: 3px solid #4a90e2;
+      background: #f8f9ff;
+    }
+
+    .tab:hover {
+      background: #f8f9fa;
+    }
+
+    .tab-content {
+      display: none;
+      padding: 16px;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    .main-toggle {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .toggle-switch {
+      width: 60px;
+      height: 30px;
+      background: #ddd;
+      border-radius: 15px;
+      position: relative;
+      cursor: pointer;
+      transition: background 0.3s;
+      display: inline-block;
+      margin-bottom: 10px;
+    }
+
+    .toggle-switch.active {
+      background: #4a90e2;
+    }
+
+    .toggle-switch::after {
+      content: '';
+      width: 26px;
+      height: 26px;
+      background: white;
+      border-radius: 50%;
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      transition: transform 0.3s;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+
+    .toggle-switch.active::after {
+      transform: translateX(30px);
+    }
+
+    .status {
+      font-weight: 600;
+      font-size: 16px;
+      color: #6c757d;
+      margin-top: 8px;
+    }
+
+    .status.enabled {
+      color: #28a745;
+    }
+
+    .section {
+      background: white;
+      border-radius: 8px;
+      padding: 16px;
+      margin-bottom: 12px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+
+    .section-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: #495057;
+      margin-bottom: 12px;
+    }
+
+    .mode-buttons {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .mode-button {
+      padding: 8px 4px;
+      border: 2px solid #dee2e6;
+      border-radius: 6px;
+      background: white;
+      cursor: pointer;
+      text-align: center;
+      font-size: 11px;
+      font-weight: 500;
+      transition: all 0.2s;
+    }
+
+    .mode-button:hover {
+      border-color: #4a90e2;
+    }
+
+    .mode-button.active {
+      border-color: #4a90e2;
+      background: #4a90e2;
+      color: white;
+    }
+
+    .intensity-control {
+      margin-bottom: 16px;
+    }
+
+    .intensity-label {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+      font-size: 13px;
+      color: #495057;
+    }
+
+    .intensity-value {
+      font-weight: 600;
+      color: #4a90e2;
+    }
+
+    .intensity-slider {
+      width: 100%;
+      height: 6px;
+      border-radius: 3px;
+      background: #dee2e6;
+      outline: none;
+      -webkit-appearance: none;
+    }
+
+    .intensity-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: #4a90e2;
+      cursor: pointer;
+    }
+
+    .timer-display {
+      text-align: center;
+      font-size: 36px;
+      font-weight: 700;
+      color: #4a90e2;
+      margin: 16px 0;
+      font-family: 'Courier New', monospace;
+    }
+
+    .timer-controls {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .timer-btn {
+      padding: 8px 16px;
+      border: none;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .timer-btn.primary {
+      background: #28a745;
+      color: white;
+    }
+
+    .timer-btn.secondary {
+      background: #ffc107;
+      color: #212529;
+    }
+
+    .timer-btn.danger {
+      background: #dc3545;
+      color: white;
+    }
+
+    .timer-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+
+    .duration-inputs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .input-group {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .input-group label {
+      font-size: 12px;
+      color: #6c757d;
+      margin-bottom: 4px;
+    }
+
+    .input-group input {
+      padding: 8px;
+      border: 1px solid #dee2e6;
+      border-radius: 4px;
+      font-size: 14px;
+    }
+
+    .whitelist-container {
+      max-height: 120px;
+      overflow-y: auto;
+      margin-bottom: 12px;
+    }
+
+    .whitelist-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px;
+      background: #f8f9fa;
+      border-radius: 4px;
+      margin-bottom: 4px;
+      font-size: 12px;
+    }
+
+    .remove-site {
+      background: #dc3545;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      cursor: pointer;
+      font-size: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .add-site-container {
+      display: flex;
+      gap: 8px;
+    }
+
+    code {
+      background: #e9ecef;
+      padding: 2px 4px;
+      border-radius: 3px;
+      font-family: 'Courier New', monospace;
+      font-size: 11px;
+    }
+
+    .add-site-input {
+      flex: 1;
+      padding: 8px;
+      border: 1px solid #dee2e6;
+      border-radius: 4px;
+      font-size: 12px;
+    }
+
+    .add-site-btn {
+      padding: 8px 12px;
+      background: #4a90e2;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 12px;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .stat-item {
+      text-align: center;
+      padding: 12px;
+      background: #f8f9fa;
+      border-radius: 6px;
+    }
+
+    .stat-value {
+      font-size: 18px;
+      font-weight: 700;
+      color: #4a90e2;
+      display: block;
+    }
+
+    .stat-label {
+      font-size: 11px;
+      color: #6c757d;
+      margin-top: 4px;
+    }
+
+    .weekly-chart {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      height: 60px;
+      padding: 8px;
+      background: #f8f9fa;
+      border-radius: 6px;
+    }
+
+    .chart-bar {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      flex: 1;
+    }
+
+    .bar {
+      width: 20px;
+      background: #4a90e2;
+      border-radius: 2px 2px 0 0;
+      min-height: 2px;
+    }
+
+    .day-label {
+      font-size: 10px;
+      color: #6c757d;
+      margin-top: 4px;
+    }
+
+    .footer {
+      text-align: center;
+      padding: 12px;
+      color: #6c757d;
+      font-size: 11px;
+      border-top: 1px solid #dee2e6;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>Grayscale Focus</h1>
+    <span class="version" id="version"></span>
+  </div>
+
+  <div class="tabs">
+    <button class="tab active" data-tab="main">Main</button>
+    <button class="tab" data-tab="timer">Timer</button>
+    <button class="tab" data-tab="sites">Sites</button>
+    <button class="tab" data-tab="stats">Stats</button>
+  </div>
+
+  <!-- Main Tab -->
+  <div class="tab-content active" data-content="main">
+    <div class="main-toggle">
+      <div class="toggle-switch" id="toggleSwitch"></div>
+      <div class="status" id="status">Disabled</div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">Visual Mode</div>
+      <div class="mode-buttons">
+        <button class="mode-button active" data-mode="grayscale">Grayscale</button>
+        <button class="mode-button" data-mode="sepia">Sepia</button>
+        <button class="mode-button" data-mode="blur">Blur</button>
+        <button class="mode-button" data-mode="contrast">Contrast</button>
+        <button class="mode-button" data-mode="desaturate">Desaturate</button>
+        <button class="mode-button" data-mode="invert">Invert</button>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">Intensity</div>
+      <div class="intensity-control">
+        <div class="intensity-label">
+          <span>Intensity</span>
+          <span class="intensity-value" id="intensityValue">100%</span>
+        </div>
+        <input type="range" class="intensity-slider" id="intensitySlider" min="10" max="100" value="100">
+      </div>
+    </div>
+  </div>
+
+  <!-- Timer Tab -->
+  <div class="tab-content" data-content="timer">
+    <div class="timer-display" id="timerDisplay">25:00</div>
+
+    <div class="timer-controls">
+      <button class="timer-btn primary" id="startTimer">Start</button>
+      <button class="timer-btn secondary" id="pauseTimer" style="display: none;">Pause</button>
+      <button class="timer-btn danger" id="resetTimer">Reset</button>
+    </div>
+
+    <div class="section">
+      <div class="section-title">Duration Settings</div>
+      <div class="duration-inputs">
+        <div class="input-group">
+          <label>Work (minutes)</label>
+          <input type="number" id="workDuration" value="25" min="1" max="120">
+        </div>
+        <div class="input-group">
+          <label>Break (minutes)</label>
+          <input type="number" id="breakDuration" value="5" min="1" max="30">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sites Tab -->
+  <div class="tab-content" data-content="sites">
+    <div class="section">
+      <div class="section-title">Whitelisted Sites</div>
+      <div style="font-size: 12px; color: #6c757d; margin-bottom: 12px;">
+        Sites on this list will never be affected by the grayscale filter.<br>
+        <strong>Patterns:</strong> Use wildcards like <code>*.example.com</code> to match all subdomains.
+      </div>
+      <div class="whitelist-container" id="whitelistContainer">
+        <!-- Dynamic content -->
+      </div>
+      <div class="add-site-container">
+        <input type="text" class="add-site-input" id="newSite" placeholder="example.com or *.example.com">
+        <button class="add-site-btn" id="addSite">Add</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Stats Tab -->
+  <div class="tab-content" data-content="stats">
+    <div class="stats-grid">
+      <div class="stat-item">
+        <span class="stat-value" id="todayTime">0h</span>
+        <div class="stat-label">Today</div>
+      </div>
+      <div class="stat-item">
+        <span class="stat-value" id="weeklyTime">0h</span>
+        <div class="stat-label">This Week</div>
+      </div>
+      <div class="stat-item">
+        <span class="stat-value" id="totalSessions">0</span>
+        <div class="stat-label">Sessions</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">Weekly Activity</div>
+      <div class="weekly-chart" id="weeklyChart">
+        <!-- Dynamic chart content -->
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    Press Ctrl+Shift+G to toggle quickly
+  </div>
+
+  <script src="../js/popup.js"></script>
+</body>
+</html>
