@@ -1,0 +1,64 @@
+{
+  "validDomains": [
+    "example.com",
+    "github.com",
+    "stackoverflow.com",
+    "developer.mozilla.org",
+    "docs.microsoft.com"
+  ],
+  "validWildcardPatterns": [
+    "*.github.com",
+    "*.atlassian.net",
+    "*.google.com",
+    "*.microsoft.com",
+    "*.stackoverflow.com"
+  ],
+  "invalidDomains": [
+    "",
+    ".com",
+    "example.",
+    "*.com",
+    "*",
+    "http://example.com",
+    "https://example.com",
+    "example..com",
+    ".example.com",
+    "example.com.",
+    "*.*.example.com"
+  ],
+  "testCases": [
+    {
+      "hostname": "api.github.com",
+      "pattern": "*.github.com",
+      "expected": true,
+      "description": "Subdomain should match wildcard pattern"
+    },
+    {
+      "hostname": "github.com",
+      "pattern": "*.github.com",
+      "expected": true,
+      "description": "Root domain should match wildcard pattern"
+    },
+    {
+      "hostname": "example.com.evil.com",
+      "pattern": "*.example.com",
+      "expected": false,
+      "description": "Should not match domain suffix attacks"
+    },
+    {
+      "hostname": "notexample.com",
+      "pattern": "*.example.com",
+      "expected": false,
+      "description": "Should not match similar but different domains"
+    }
+  ],
+  "performanceTestData": {
+    "largeDomainList": {
+      "count": 1000,
+      "pattern": "site{index}.com",
+      "description": "Large list for performance testing"
+    },
+    "maxExecutionTime": 100,
+    "maxMemoryUsage": "50MB"
+  }
+}

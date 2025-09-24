@@ -1,0 +1,69 @@
+{
+  "manifest_version": 2,
+  "name": "Grayscale Focus",
+  "version": "0.0.0-dev",
+  "description": "Advanced focus extension with multiple visual modes (grayscale, sepia, blur), adjustable intensity, site whitelist, Pomodoro timer, usage analytics, and keyboard shortcuts. Boost productivity by reducing visual distractions.",
+
+  "permissions": [
+    "activeTab",
+    "storage",
+    "<all_urls>",
+    "contextMenus",
+    "alarms",
+    "notifications"
+  ],
+
+  "background": {
+    "scripts": ["src/js/background.js"],
+    "persistent": false
+  },
+
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["src/js/content.js"],
+      "css": ["src/css/grayscale.css"],
+      "run_at": "document_start",
+      "all_frames": true
+    }
+  ],
+
+  "browser_action": {
+    "default_popup": "src/html/popup.html",
+    "default_title": "Grayscale Focus",
+    "default_icon": {
+      "16": "src/assets/icons/icon-16.png",
+      "32": "src/assets/icons/icon-32.png",
+      "48": "src/assets/icons/icon-48.png",
+      "128": "src/assets/icons/icon-128.png"
+    }
+  },
+
+  "icons": {
+    "16": "src/assets/icons/icon-16.png",
+    "32": "src/assets/icons/icon-32.png",
+    "48": "src/assets/icons/icon-48.png",
+    "128": "src/assets/icons/icon-128.png"
+  },
+
+  "web_accessible_resources": [
+    "src/css/grayscale.css"
+  ],
+
+  "commands": {
+    "toggle-grayscale": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+G",
+        "mac": "MacCtrl+Shift+G"
+      },
+      "description": "Toggle grayscale mode"
+    },
+    "start-focus-timer": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+F",
+        "mac": "MacCtrl+Shift+F"
+      },
+      "description": "Start focus timer session"
+    }
+  }
+}

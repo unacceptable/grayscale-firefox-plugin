@@ -1,0 +1,27 @@
+name: Regression Tests
+
+# This workflow specifically tests for the whitelist bug discovered on 2025-09-23
+# It ensures that whitelisted sites do not get visual effects applied
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+
+jobs:
+  regression-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Run Regression Tests
+      run: |
+        chmod +x tests/test.sh
+        tests/test.sh --regression
+
+    - name: Report Results
+      if: always()
+      run: |
+        echo "::notice title=Whitelist Regression Test::Whitelist bug regression test completed using unified test runner"
